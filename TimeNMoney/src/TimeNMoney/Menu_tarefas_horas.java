@@ -1903,10 +1903,13 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
                 catch(NumberFormatException e){
                     horas_dia = 0;
                 }
+                
                 if (horas_dia!=0)
-                {
+                {	
                 	c.set(Calendar.DAY_OF_MONTH, i);
-                	t_comp.put(c.getTime(),horas_dia);
+                	boolean bloq = verify_dia_bloqueado(c.getTime());
+                	if (!bloq)
+                		t_comp.put(c.getTime(),horas_dia);
                 }
                 i++;
             }
@@ -1917,6 +1920,16 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Não existe projecto com id: " + id_projecto + "! Linha: "+cont_linha);
     }
     
+    private boolean verify_dia_bloqueado(Date d){
+    	for (Horas_Handle_Obj hho : this.dm.lista_handler_horas){
+    		if (hho.get_data().equals(d))
+    			if (hho.get_estado() == 1 || hho.get_estado() == 9)
+    				return true;
+    			else
+    				return false;
+    	}
+    	return false;
+    }
     
     private String get_id_auto()
     {

@@ -678,7 +678,6 @@ public class Adicionar_tarefa_time extends javax.swing.JFrame {
             aux_id = lista_id_aux[0];
             Projecto aux_p = projectos.get(aux_id);
             etapas = new TreeMap<>(aux_p.get_etapas());
-            System.out.println("Etapas: "+aux_p.get_etapas().size());
             actividades = new TreeMap<>(aux_p.get_actividades());
             tarefas = new TreeMap<>(aux_p.get_tarefas());
             for (Etapa e : etapas.values())

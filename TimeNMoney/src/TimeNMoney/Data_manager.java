@@ -420,6 +420,36 @@ public class Data_manager implements Serializable{
         }
     }
     
+    int get_taxas_moeda2(Connection con){
+    	int res = 0;
+        try{
+        	this.taxas = new HashMap<String, Double>();
+        	PreparedStatement ps;
+            ResultSet rs;
+            String sql = "select * from tnm_taxas_moeda";
+            ps=con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                String moeda = rs.getString("ID_MOEDA");
+                double taxa = rs.getDouble("TAXA");
+                int mes = rs.getInt("MES");
+                int ano = rs.getInt("ANO");
+                String id = mes +"_"+ ano +"_"+ moeda.toUpperCase();
+                id = id.trim();
+                this.taxas.put(id,taxa);
+            }
+            ps.close();
+            rs.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            new Log_erros_class().write_log_to_file(e);
+            res++;
+        }
+        return res;
+    }
+    
     void get_despesas_from_bd(String user,Connection con){
         ArrayList<Despesa_new> aux = new ArrayList<>();
         try{
@@ -477,6 +507,33 @@ public class Data_manager implements Serializable{
         this.estado_despesas_user = estado;
     }
     
+    public int get_estado_despesas2(String user,Connection con){
+    	int res = 0;
+    	TreeMap<Integer,Integer> estado = new TreeMap<>();
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            String sql = "select * from tnm_handlepagamentos where username='"+ user +"'";
+            ps=con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                int id = rs.getInt("ID");
+                int sit = rs.getInt("SITUACAO");
+                estado.put(id, sit);
+            }
+            ps.close();
+            rs.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            new Log_erros_class().write_log_to_file(e);
+            res++;
+        }
+        this.estado_despesas_user = estado;
+        return res;
+    }
+    
     void get_list_projectos_from_bd(String user,Connection con){
     	TreeMap<String,Projecto> projectos = new TreeMap<>();
         
@@ -515,6 +572,47 @@ public class Data_manager implements Serializable{
         }
     }
     
+    int get_list_projectos_from_bd2(String user,Connection con){
+    	TreeMap<String,Projecto> projectos = new TreeMap<>();
+        int res = 0;
+        try{
+        //projectos
+        String sql = "select * from tnm_trf_projecto" ;
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()){
+            ByteArrayInputStream bais;
+            ObjectInputStream ois;
+            try{
+                String codigo = rs.getString("ID_PROJECTO");
+                bais = new ByteArrayInputStream(rs.getBytes("PROJECTO"));
+                ois = new ObjectInputStream(bais);
+                Projecto p = (Projecto)ois.readObject();
+                if (p.get_funcionarios().containsKey(user))
+                    projectos.put(codigo, p);
+                
+            }
+            catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
+                e.printStackTrace();
+                new Log_erros_class().write_log_to_file(e);
+                res++;
+            }
+        }  
+        rs.close();
+        ps.close();
+        
+        this.lista_projectos_user = projectos;
+        
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            new Log_erros_class().write_log_to_file(e);
+            res++;
+        }
+        return res;
+    }
+    
     void get_list_tipos_despesa(Connection con){
         ArrayList<String> tipos = new ArrayList<>();
         
@@ -537,6 +635,32 @@ public class Data_manager implements Serializable{
             e.printStackTrace();
             new Log_erros_class().write_log_to_file(e);
         }
+    }
+    
+    int get_list_tipos_despesa2(Connection con){
+        ArrayList<String> tipos = new ArrayList<>();
+        int res = 0;
+        try{
+         //tipo despesas
+        String sql = "select * from tnm_tipo_despesa";
+        PreparedStatement ps=con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()){
+            String tipo = rs.getString("DESCRICAO");
+            tipos.add(tipo);
+        }
+        rs.close();
+        ps.close();
+        
+        this.tipos_despesa = tipos;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            new Log_erros_class().write_log_to_file(e);
+            res++;
+        }
+        return res;
     }
     
     void get_lista_tarefas(Connection con){
@@ -587,7 +711,7 @@ public class Data_manager implements Serializable{
         }
     }
     
-    void get_tarefas_time_from_bd(String user,Connection con){
+   public void get_tarefas_time_from_bd(String user,Connection con){
     	TreeMap<String,TarefaHoras> aux = new TreeMap<>();
         try{
             PreparedStatement ps;
@@ -620,7 +744,7 @@ public class Data_manager implements Serializable{
         this.lista_tarefas_time_user = aux;
     }
     
-    void get_favoritos_from_bd(String user,Connection con){
+    public void get_favoritos_from_bd(String user,Connection con){
         ArrayList<TarefaHoras> aux = new ArrayList<>();
         try{
             PreparedStatement ps;
@@ -653,7 +777,7 @@ public class Data_manager implements Serializable{
         this.lista_tarefas_favoritas = aux;
     }
     
-    void get_aprov_or_not_task_list(String username,Connection con){
+    public void get_aprov_or_not_task_list(String username,Connection con){
         ArrayList<Horas_Handle_Obj> aux = new ArrayList<>();
         try{
             PreparedStatement ps;
@@ -677,6 +801,35 @@ public class Data_manager implements Serializable{
             new Log_erros_class().write_log_to_file(e);
         }
         this.lista_handler_horas = aux;
+    }
+    
+    public int get_aprov_or_not_task_list2(String username,Connection con){
+        int ret = 0;
+    	ArrayList<Horas_Handle_Obj> aux = new ArrayList<>();
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            String sql = "select * from tnm_handle_horas where username='"+ username +"'";
+            ps=con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                String u = rs.getString("USERNAME");
+                Date dia = rs.getDate("DATA");
+                int e = rs.getInt("SITUACAO");
+                Horas_Handle_Obj ho = new Horas_Handle_Obj(u,dia,e);
+                aux.add(ho);
+            }
+            rs.close();
+            ps.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            new Log_erros_class().write_log_to_file(e);
+            ret++;
+        }
+        this.lista_handler_horas = aux;
+        return ret;
     }
     
     private void get_funcionarios_geridos(String username,Connection con){

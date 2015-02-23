@@ -25,13 +25,16 @@ import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JMenuItem;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
@@ -39,7 +42,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 
@@ -52,6 +57,8 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     ScheduledExecutorService executor_dm;
     ScheduledExecutorService executor_estados;
     ScheduledExecutorService executor_log;
+    ScheduledExecutorService executor_handlers;
+    ScheduledExecutorService executor_listas;
     int contador_thread;
     
 //    public Menu_inicial_utilizador(Funcionario f) {
@@ -87,11 +94,13 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
         set_admin_botao();
         //this.dm = new Data_manager(this.funcionario.get_username());
         set_dm();
-        iniciar_thread_update_dm();
-        iniciar_thread_estados();
+        iniciar_thread_save_dm();
+        iniciar_thread_estado_con();
         iniciar_thread_confirma_log();
+        iniciar_thread_update_handleres();
+        iniciar_thread_update_app();
+        iniciar_thread_update_listas_dados();
         set_menu_manager_visible();
-        iniciar_thread_update();
         this.contador_thread = 0;
         set_foto_panel();
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -121,19 +130,72 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	}
     }
     
-    private void iniciar_thread_update_dm(){
-    	Runnable runnable_update_dm = new Runnable() {
+    private void iniciar_thread_save_dm(){
+    	Runnable runnable_save_dm = new Runnable() {
     	    public void run() {
-	    		update_dm_thread();
+	    		save_dm_thread();
     	    }
     	};
     	this.executor_dm = Executors.newScheduledThreadPool(1);
-    	executor_dm.scheduleAtFixedRate(runnable_update_dm, 0, 5, TimeUnit.MINUTES);
+    	executor_dm.scheduleAtFixedRate(runnable_save_dm, 0, 5, TimeUnit.MINUTES);
     }
     
-    private void update_dm_thread(){
-    	//send_partial_auto_action();
-    	//this.dm.update_save_data_bd(this.funcionario.get_username());
+    //update handlers tarefas + despesas
+    private void iniciar_thread_update_handleres(){
+    	Runnable runnable_update_handlers = new Runnable() {
+    	    public void run() {
+	    		update_handlers();
+    	    }
+    	};
+    	this.executor_handlers = Executors.newScheduledThreadPool(1);
+    	executor_handlers.scheduleAtFixedRate(runnable_update_handlers, 0, 5, TimeUnit.MINUTES);
+    }
+    
+    private void update_handlers(){
+    	String username = this.funcionario.get_username();
+    	Connection con = (new Connection_bd()).get_connection();
+    	if (con != null){
+    		Backup_data_manager bdm = new Backup_data_manager(this.dm);
+    		bdm.save_backup_file();
+    		
+    		int res = this.dm.get_aprov_or_not_task_list2(username,con);
+    		res += this.dm.get_estado_despesas2(username,con);
+    		if (res==0)
+    			bdm.delete_backup();
+    		else
+    			this.dm = bdm.get_file_backup();
+        }
+    }
+    
+    //update listas de dados -> projectos, etapas, atividades, ...
+    private void iniciar_thread_update_listas_dados(){
+    	Runnable runnable_update_listas = new Runnable() {
+    	    public void run() {
+	    		update_listas();
+    	    }
+    	};
+    	this.executor_listas = Executors.newScheduledThreadPool(1);
+    	executor_listas.scheduleAtFixedRate(runnable_update_listas, 0, 5, TimeUnit.MINUTES);
+    }
+    
+    private void update_listas(){
+    	String username = this.funcionario.get_username();
+    	Connection con = (new Connection_bd()).get_connection();
+    	if (con != null){
+    		Backup_data_manager bdm = new Backup_data_manager(this.dm);
+    		bdm.save_backup_file();
+    		
+    		int res = this.dm.get_list_projectos_from_bd2(username,con);
+    		res += this.dm.get_list_tipos_despesa2(con);
+    		res += this.dm.get_taxas_moeda2(con);
+    		if (res==0)
+    			bdm.delete_backup();
+    		else
+    			this.dm = bdm.get_file_backup();
+        }
+    }
+    
+    private void save_dm_thread(){
     	this.dm.save_file();
     	set_menu_manager_visible();
     }
@@ -651,8 +713,8 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
         }
         else
         {
-        	iniciar_thread_update_dm();
-            iniciar_thread_estados();
+        	iniciar_thread_save_dm();
+        	iniciar_thread_estado_con();
             iniciar_thread_confirma_log();
         }
     }
@@ -886,7 +948,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
         return res;
     }
     
-    private void iniciar_thread_estados(){
+    private void iniciar_thread_estado_con(){
     	Runnable runnable_estados = new Runnable() {
     	    public void run() {
     	    	try{
@@ -1067,7 +1129,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	this.setCursor(Cursor.getDefaultCursor());
     }
     
-    private void update_action_thread(){
+    private void update_app_action_thread(){
     	//last versao bd
     	String versao = (new Version_class()).get_version();
     	String versao_bd = get_last_version_bd();
@@ -1076,10 +1138,10 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     		update_application(versao_bd);
     }
     
-    private void iniciar_thread_update(){
+    private void iniciar_thread_update_app(){
     	Runnable runnable_update = new Runnable() {
     	    public void run() {
-    	    	update_action_thread();
+    	    	update_app_action_thread();
     	    }
     	};
     	runnable_update.run();
