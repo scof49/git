@@ -12,5 +12,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/sqljdbc4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/swing-layout-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/jxl.jar"/>
+	<classpathentry kind="lib" path="lib/mail.jar"/>
+	<classpathentry kind="lib" path="lib/javaee.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -28,7 +28,8 @@ public class Log_erros_class {
         	PrintWriter pw = new PrintWriter(sw);
         	e.printStackTrace(pw);
         	String stack_str = sw.toString();
-	        Calendar c = Calendar.getInstance();
+        	send_mail_erro(stack_str);
+        	Calendar c = Calendar.getInstance();
 	        String data_hora = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH)+1) + "/" + c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
 	        String mensagem = delimiter + data_hora + " -\r\n " + stack_str + delimiter;
 //	        File s_file = new File("error_folder");
@@ -45,5 +46,21 @@ public class Log_erros_class {
 	        out.close();
 	        }
 	        catch(IOException ex){}
+    }
+    
+    private void send_mail_erro(String msg_text){
+    	Runnable r = new Runnable() {
+    	    public void run() {
+    	    	send(msg_text);
+    	    }
+    	};
+    	new Thread(r).start();
+    	
+    }
+    
+    private void send(String msg_text){
+    	SendMailTLS smt = new SendMailTLS();
+    	String mail_to = "ivo.oliveira@odkas.com";
+		smt.send_mail_relatorio_erro(mail_to,msg_text);
     }
 }
