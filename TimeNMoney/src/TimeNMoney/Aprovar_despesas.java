@@ -513,6 +513,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
             load_table(this.username_activo);
         }
         set_decision_aprov();
+        create_thread_notification(this.username_activo);
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_aprovar_botaoActionPerformed
 
@@ -623,6 +624,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
             load_table(this.username_activo);
         }
         set_decision_aprov();
+        create_thread_notification(this.username_activo);
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_rejeitar_botaoActionPerformed
 
@@ -799,7 +801,69 @@ public class Aprovar_despesas extends javax.swing.JFrame {
         }
     }
 
+    @SuppressWarnings("resource")
+	private void begin_notification_thread(String username){
+    	try {
+			 Calendar c = Calendar.getInstance();
+	         int dia = c.get(Calendar.DAY_OF_MONTH);
+	         int mes = c.get(Calendar.MONTH);
+	         int ano = c.get(Calendar.YEAR);
+	         c.clear();
+	         c.set(Calendar.DAY_OF_MONTH,dia);
+	         c.set(Calendar.MONTH,mes);
+	         c.set(Calendar.YEAR,ano);
+	         Date hoje = c.getTime();
+	         
+            PreparedStatement ps;
+            String sql;
+            ResultSet rs;
+            sql = "select * from tnm_handle_notif where username='"+ username + "'";
+            ps=this.con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next())
+            {
+            	Date aux = rs.getDate("DATA");
+            	if (!aux.equals(hoje)){
+            		SendMailTLS smt = new SendMailTLS();
+                	smt.send_mail_notificacao(username);
+                	java.sql.Date d_hoje = new java.sql.Date(hoje.getTime());
+                	sql="update tnm_handle_notif set data=? where username=?";
+                	ps=this.con.prepareStatement(sql);
+                	ps.setDate(1, d_hoje);
+                	ps.setString(2, username);
+                	ps.executeUpdate();
+            	}
+            }
+            else
+            {
+            	SendMailTLS smt = new SendMailTLS();
+            	smt.send_mail_notificacao(username);
+            	
+            	java.sql.Date d_hoje = new java.sql.Date(hoje.getTime());
+            	sql="insert into tnm_handle_notif (username,data) values(?,?)";
+                ps=this.con.prepareStatement(sql);
+                ps.setString(1, username);
+                ps.setDate(2, d_hoje);
+                ps.executeUpdate();
+            }
+          rs.close();
+          ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.setCursor(Cursor.getDefaultCursor());
+            new Log_erros_class().write_log_to_file(e);
+        }
+    }
     
+
+	private void create_thread_notification(String username){
+    	Runnable r = new Runnable() {
+			public void run() {
+				begin_notification_thread(username);
+			}
+		};
+		new Thread(r).start();
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     @SuppressWarnings("unused")

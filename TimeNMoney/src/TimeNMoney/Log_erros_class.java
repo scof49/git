@@ -32,10 +32,6 @@ public class Log_erros_class {
         	Calendar c = Calendar.getInstance();
 	        String data_hora = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH)+1) + "/" + c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
 	        String mensagem = delimiter + data_hora + " -\r\n " + stack_str + delimiter;
-//	        File s_file = new File("error_folder");
-//	        s_file.mkdirs(); 
-//	        String path = s_file.getAbsolutePath();
-//	        String defaultFolder = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
 	        String defaultFolder = System.getenv("APPDATA");
             File s_file = new File(defaultFolder + "\\TimeNMoney\\error_folder");
             s_file.mkdirs();
@@ -61,6 +57,6 @@ public class Log_erros_class {
     private void send(String msg_text){
     	SendMailTLS smt = new SendMailTLS();
     	String mail_to = "ivo.oliveira@odkas.com";
-		smt.send_mail_relatorio_erro(mail_to,msg_text);
+		smt.send_mail_relatorio_erro(mail_to, msg_text);
     }
 }

@@ -63,7 +63,7 @@ public class SendMailTLS {
 			message.setText("Notificação Time & Money"+
 					"\n---------------------------------"+
 					"\n\n"+
-					"\nForam aprovadas tarefas e/ou despesas."+
+					"\nForam aprovadas/rejeitadas tarefas e/ou despesas."+
 					"\nPor favor, garanta que tem os dados atualizados para um correto funcionamento da aplicação!"+
 					"\n\nObrigado,"+
 					"\nA Equipa de Desenvolvimento Odkas - Time & Money");
