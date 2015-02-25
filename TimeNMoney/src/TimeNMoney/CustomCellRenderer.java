@@ -79,6 +79,9 @@ public class CustomCellRenderer extends DefaultTableCellRenderer {
             	bl = Color.GRAY;
             	rendererComp.setForeground(bl);
             }
+            else if (aprov==10){
+            	rendererComp.setForeground(Color.blue);
+            }
             else{
                 rendererComp.setForeground(Color.black);    
             }

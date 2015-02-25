@@ -50,6 +50,7 @@ public class Data_manager implements Serializable{
     ArrayList<Cliente> clientes;
     TreeMap<String,Funcionario> funcionario_geridos_por_mim;//funcionarios cujo user tem capacidade para gerir tempos e despesas
     TreeMap<String,Funcionario> lista_funcionarios;	//lista total de funcionarios
+    ArrayList<Date> lista_feriados; //lista de feriados angolanos para apresentar nos calendarios
     int read;
     
 //    double rate_usd;
@@ -215,6 +216,7 @@ public class Data_manager implements Serializable{
 	        get_id_user_tarefas_bd(username,con);
 	        get_lista_funcionarios(con);
 	        get_funcionarios_geridos(username,con);
+	        get_lista_feriados(con);
         	con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -844,6 +846,25 @@ public class Data_manager implements Serializable{
     			String user_func = rs.getString("user_funcionario");
     			Funcionario f = this.lista_funcionarios.get(user_func);
     			this.funcionario_geridos_por_mim.put(user_func, f);
+    		}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		new Log_erros_class().write_log_to_file(e);
+    	}
+    	
+    }
+    
+    private void get_lista_feriados(Connection con){
+    	this.lista_feriados = new ArrayList<Date>();
+    	try{
+    		String sql = "select * from tnm_feriados";
+    		PreparedStatement ps = con.prepareStatement(sql);
+    		ResultSet rs = ps.executeQuery();
+    		while(rs.next())
+    		{
+    			Date data = rs.getDate("data");
+    			this.lista_feriados.add(data);
     		}
     	}
     	catch(Exception e){

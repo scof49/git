@@ -2341,6 +2341,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
             block_part_menu_approved(true);
         }
         else if (ap==9){
+        	aprov_label.setIcon(null);
         	this.semana_rejeitada = false;
             block_part_menu_approved(false);
         }
@@ -2365,7 +2366,8 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
             }
         }
         else{
-            
+            //get dias feriados para a semana
+        	ArrayList<Integer> dias_feriados = get_lista_feriados(this.d_inicio,this.d_fim);
             if (!edit_rejected_row)
                 set_model_table(this.d_inicio, this.d_fim, this.dias_aprovados,this.dias_bloqueados);
             while (i<n){
@@ -2378,6 +2380,8 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
                     aux_ap = 3;
                 else if (dias_bloqueados.contains(i))
                 	aux_ap = 9;
+                else if (i == 5 || i == 6 || (dias_feriados != null && dias_feriados.contains(i)))
+                    aux_ap = 10; //fim de semana ou feriados
                 else 
                     aux_ap = 0;
                 jTable1.getColumnModel().getColumn(i).setCellRenderer(new CustomCellRenderer(aux_ap));
@@ -2385,6 +2389,25 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
             }
             this.edit_rejected_row = false;
         }
+    }
+    
+    private ArrayList<Integer> get_lista_feriados(Date d_inicio,Date d_fim){
+    	ArrayList<Integer> lista = new ArrayList<Integer>();
+    	Calendar c = Calendar.getInstance();
+    	c.clear();
+    	c.setTime(d_inicio);
+    	Date iter = c.getTime();
+    	int count = 0;
+    	while (!iter.equals(d_fim)){
+    		//ver se lista de feriados contem a data
+    		if (this.dm.lista_feriados != null && this.dm.lista_feriados.contains(iter)){
+    			lista.add(count);
+    		}
+    		count++;
+    		c.add(Calendar.DAY_OF_MONTH, 1);
+    		iter = c.getTime();
+    	}
+    	return lista;
     }
     
     private int get_aprov_or_not(String username, Date inicio, Date fim){
