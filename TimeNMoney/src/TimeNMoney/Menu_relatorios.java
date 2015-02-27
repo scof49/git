@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -71,6 +72,7 @@ public class Menu_relatorios extends javax.swing.JFrame {
 	TreeMap<String,Funcionario> lista_funcionarios_completa;
 	TreeMap<String,Projecto> lista_projectos_completa;
 	TreeMap<String,Cliente> lista_clientes_completa;
+	TreeSet<String> lista_projectos_internos;
     String username_admin;
     
     public Menu_relatorios(String user_adm,TreeMap<String,Funcionario> lista_func) {
@@ -82,6 +84,7 @@ public class Menu_relatorios extends javax.swing.JFrame {
         get_list_projectos_clientes_from_bd();
         this.lista_funcionarios_completa = lista_func;
         carrega_listas_from_bd();
+        calc_lista_projectos_internos();
     }
     
     private void carrega_listas_from_bd(){
@@ -938,22 +941,28 @@ public class Menu_relatorios extends javax.swing.JFrame {
         return cellFormat;
     }
     
-    private static WritableCellFormat getCell_ferias() throws WriteException {
-    	Colour colour = Colour.GRAY_25;
+    private static WritableCellFormat getCell_interno(int ferias) throws WriteException {
+    	Colour colour = Colour.IVORY;
     	Pattern pattern = Pattern.SOLID;
     	WritableFont cellFont = new WritableFont(WritableFont.ARIAL,10,WritableFont.BOLD);
-        cellFont.setColour(Colour.RED);
+        if (ferias == 1)
+        	cellFont.setColour(Colour.RED);
+        else
+        	cellFont.setColour(Colour.BLUE_GREY);
         WritableCellFormat cellFormat = new WritableCellFormat(cellFont);
         cellFormat.setBackground(colour, pattern);
         return cellFormat;
     }
     
-    private static WritableCellFormat getCell_ferias_data() throws WriteException {
-    	Colour colour = Colour.GRAY_25;
+    private static WritableCellFormat getCell_interno_data(int ferias) throws WriteException {
+    	Colour colour = Colour.IVORY;
     	Pattern pattern = Pattern.SOLID;
     	DateFormat customDateFormat = new DateFormat ("dd-MM-yyyy");
     	WritableFont cellFont = new WritableFont(WritableFont.ARIAL,10,WritableFont.BOLD);
-        cellFont.setColour(Colour.RED);
+    	if (ferias == 1)
+        	cellFont.setColour(Colour.RED);
+        else
+        	cellFont.setColour(Colour.BLUE_GREY);
         WritableCellFormat cellFormat = new WritableCellFormat(cellFont,customDateFormat);
         cellFormat.setBackground(colour, pattern);
         return cellFormat;
@@ -1029,7 +1038,7 @@ public class Menu_relatorios extends javax.swing.JFrame {
             }
         }
         else{
-        //mesmo ficheiro para todos os funcionarios
+        	//mesmo ficheiro para todos os funcionarios
             try{
             double total = 0.0;
             int linha_indice = 0;
@@ -1129,6 +1138,8 @@ public class Menu_relatorios extends javax.swing.JFrame {
         ArrayList<Indice_percentagens> lista_ip = new ArrayList<Indice_percentagens>();
     	String proj_antigo = "";
     	String proj = "";
+    	String id_proj_lastline = "";
+    	String proj_lastline = "";
     	double total_horas = 0.0;
         DateFormat customDateFormat = new DateFormat ("dd-MM-yyyy"); 
 		WritableCellFormat dateFormat = new WritableCellFormat (customDateFormat);
@@ -1136,14 +1147,13 @@ public class Menu_relatorios extends javax.swing.JFrame {
             try{  
             	TarefaHoras t = ct.get_tarefas();
         		proj = t.get_id_projecto() + " : " + t.get_nome_projecto();
-        		
-        		
-        		
-        		if (proj_antigo.equals(""))
+        		if (proj_antigo.equals("") && !is_projecto_interno(t.get_id_projecto()))
         			proj_antigo = proj;
         		
-        		if (!proj.equals(proj_antigo) && !proj.contains("ODKASF0998"))
+        		if (!proj.equals(proj_antigo) && !is_projecto_interno(t.get_id_projecto()))//!t.get_id_projecto().contains("ODKASF0998"))
         		{
+        			id_proj_lastline = t.get_id_projecto();
+        			proj_lastline = t.get_id_projecto() + " : " + t.get_nome_projecto();
         			Label lproject_line = new Label(0,linha,"Projecto:",getCell_projecto());
         			Label lproject_name = new Label(1,linha,proj_antigo,getCell_projecto());
         			Label l1 = new Label(2,linha,"",getCell_projecto());
@@ -1172,7 +1182,7 @@ public class Menu_relatorios extends javax.swing.JFrame {
         		
         		
         		
-        		if (!t.get_id_projecto().equals("ODKASF0998"))
+        		if (!is_projecto_interno(t.get_id_projecto()))//!t.get_id_projecto().equals("ODKASF0998"))
                 {
         			TreeMap<Date,Double> datas = aux.get(ct);
 	                for (Date d : datas.keySet())
@@ -1216,10 +1226,11 @@ public class Menu_relatorios extends javax.swing.JFrame {
                 new Log_erros_class().write_log_to_file(e);
             }
         }
-        if (!proj.equals("") && !proj.contains("ODKASF0998"))
+        if (!proj_lastline.equals("") && !is_projecto_interno(id_proj_lastline))//!proj.contains("ODKASF0998"))
         try{
-	        Label lproject_line = new Label(0,linha,"Projecto:",getCell_projecto());
-			Label lproject_name = new Label(1,linha,proj,getCell_projecto());
+        	Label lproject_line = new Label(0,linha,"Projecto:",getCell_projecto());
+			//Label lproject_name = new Label(1,linha,proj,getCell_projecto());
+			Label lproject_name = new Label(1,linha,proj_lastline,getCell_projecto());
 			Label l1 = new Label(2,linha,"",getCell_projecto());
 			Label l2 = new Label(3,linha,"",getCell_projecto());
 			Label l3 = new Label(4,linha,"",getCell_projecto());
@@ -1269,37 +1280,41 @@ public class Menu_relatorios extends javax.swing.JFrame {
             try{
         	TarefaHoras t = ct.get_tarefas();
         	proj = t.get_id_projecto() + " : " + t.get_nome_projecto();
-            if (t.get_id_projecto().equals("ODKASF0998"))
+            if (is_projecto_interno(t.get_id_projecto()))//t.get_id_projecto().equals("ODKASF0998"))														
             {
                 TreeMap<Date,Double> datas = aux.get(ct);
                 for (Date d : datas.keySet())
                 { 
+                	int ferias = 0;
+                	if (t.get_id_projecto().equals("ODKASF0998"))
+                		ferias = 1;
+                	
                 	//cliente
-                	Label lcliente = new Label(0,linha,get_cliente_projecto(t.get_id_projecto()),getCell_ferias());
+                	Label lcliente = new Label(0,linha,get_cliente_projecto(t.get_id_projecto()),getCell_interno(ferias));
                 	sheet.addCell(lcliente);
                 	//projecto
-                	Label lprojecto = new Label(1,linha,proj,getCell_ferias());
+                	Label lprojecto = new Label(1,linha,proj,getCell_interno(ferias));
                 	sheet.addCell(lprojecto);
                 	//nome
-                	Label lnome = new Label(2,linha,nome,getCell_ferias());
+                	Label lnome = new Label(2,linha,nome,getCell_interno(ferias));
                 	sheet.addCell(lnome);
                 	//etapa
-                	Label letapa = new Label(3,linha,t.get_etapa(),getCell_ferias());
+                	Label letapa = new Label(3,linha,t.get_etapa(),getCell_interno(ferias));
                 	sheet.addCell(letapa);
                 	//actividade
-                	Label latividade = new Label(4,linha,t.get_actividade(),getCell_ferias());
+                	Label latividade = new Label(4,linha,t.get_actividade(),getCell_interno(ferias));
                 	sheet.addCell(latividade);
                 	//tarefa
-                	Label ltarefa = new Label(5,linha,t.get_tarefa(),getCell_ferias());
+                	Label ltarefa = new Label(5,linha,t.get_tarefa(),getCell_interno(ferias));
                 	sheet.addCell(ltarefa);
                 	//local
-                	Label llocal = new Label(6,linha,t.get_local(),getCell_ferias());
+                	Label llocal = new Label(6,linha,t.get_local(),getCell_interno(ferias));
                 	sheet.addCell(llocal);
                 	//data
-                	DateTime ldata = new DateTime(7,linha,d,getCell_ferias_data());
+                	DateTime ldata = new DateTime(7,linha,d,getCell_interno_data(ferias));
                 	sheet.addCell(ldata);
                 	//horas
-                	Number lhora = new Number(8,linha,datas.get(d),getCell_ferias());
+                	Number lhora = new Number(8,linha,datas.get(d),getCell_interno(ferias));
                 	sheet.addCell(lhora);
                 	linha++;
                 }
@@ -1340,6 +1355,21 @@ public class Menu_relatorios extends javax.swing.JFrame {
             new Log_erros_class().write_log_to_file(e);
 		}
         return new Indice_Relatorio(linha, 0);
+    }
+    
+    private void calc_lista_projectos_internos(){
+    	TreeSet<String> prj_internos = new TreeSet<String>();
+    	for (Projecto p : this.lista_projectos_completa.values()){
+    		if (p.get_cliente().get_id().equals("00"))
+			{
+				prj_internos.add(p.get_codigo());
+			}
+    	}
+    	this.lista_projectos_internos = prj_internos;
+    }
+    
+    private boolean is_projecto_interno(String id){
+    	return this.lista_projectos_internos.contains(id);
     }
     
     private double get_total_indices(ArrayList<Indice_percentagens> lista){

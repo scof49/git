@@ -61,26 +61,6 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     ScheduledExecutorService executor_listas;
     int contador_thread;
     
-//    public Menu_inicial_utilizador(Funcionario f) {
-//    	setResizable(false);
-//        this.autolog = false;
-//        this.savelog = false;
-//        initComponents();
-//        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("odkas.tnm.png")));
-//        this.funcionario = f;
-//        username_label.setText(f.get_username());
-//        set_admin_botao();
-//        //this.dm = new Data_manager(this.funcionario.get_username());
-//        set_dm();
-//        iniciar_thread_update_dm();
-//        iniciar_thread_estados();
-//        iniciar_thread_confirma_log();
-//        set_menu_manager_visible();
-//        iniciar_thread_update();
-//        this.contador_thread = 0;
-//        set_foto_panel();
-//    }
-    
     /**
      * @wbp.parser.constructor
      */
