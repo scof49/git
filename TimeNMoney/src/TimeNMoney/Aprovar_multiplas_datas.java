@@ -163,7 +163,7 @@ public class Aprovar_multiplas_datas extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
 	
@@ -232,7 +232,7 @@ public class Aprovar_multiplas_datas extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     

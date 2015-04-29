@@ -336,7 +336,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
 	private void add_status_to_combo_box(){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "select * from tnm_status_projectos" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -347,7 +347,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
     }
     
@@ -385,7 +385,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
    
 	private void carrega_listas_from_bd(){
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         //etapas
         String sql = "select * from tnm_trf_etapa";
         PreparedStatement ps=con.prepareStatement(sql);
@@ -439,7 +439,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
     }
     
@@ -447,7 +447,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
 	private void add_clientes_to_combo_box(){
         try{
         	TreeMap<String,Cliente> clientes = new TreeMap<>();
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "select * from tnm_trf_cliente" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -463,7 +463,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
     }
     
@@ -485,7 +485,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         ArrayList<String> lista = new ArrayList<>();
         ArrayList<Integer> lista_numeros_cliente = new ArrayList<>();
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "select id_projecto from tnm_trf_projecto" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -496,7 +496,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
         
         for (String s : lista){
@@ -552,7 +552,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
             ret = 0;
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
         return ret;
     }
@@ -566,7 +566,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
     
 	private void carrega_lista_projectos(){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "select * from tnm_trf_projecto" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -585,7 +585,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
                 catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                     e.printStackTrace();
                     this.setCursor(Cursor.getDefaultCursor());
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
                 }
 //                lista_projectos.setModel(d);
             }
@@ -594,7 +594,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
     }
     
@@ -750,7 +750,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         //1 se já existir codigo
         //2 se erro
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         PreparedStatement ps;
         String sql;
         sql="select * from tnm_trf_projecto where id_projecto = '"+ p.get_codigo() +"'";
@@ -780,7 +780,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 2;
         }
     }
@@ -790,7 +790,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
             return 0;
         else{
             try{
-                Connection con = (new Connection_bd()).get_connection();
+                Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             PreparedStatement ps;
             String sql;
             sql="select * from tnm_trf_projecto where id_projecto = '"+ novo +"'";
@@ -805,7 +805,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
             catch(SQLException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
                 return 2;
             }
         }
@@ -821,7 +821,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         else if (res==2)
             return 2;
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             PreparedStatement ps;
             String sql;
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -845,7 +845,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 2;
         }
     }
@@ -1988,7 +1988,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
 
     private int delete_from_bd(String codigo){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "delete from tnm_trf_projecto where id_projecto = '" + codigo + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ps.executeUpdate();
@@ -1997,7 +1997,7 @@ public class Adicionar_consultar_projecto extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 1;
         }
     }

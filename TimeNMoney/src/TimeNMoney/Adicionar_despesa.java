@@ -646,7 +646,7 @@ public class Adicionar_despesa extends javax.swing.JFrame {
         catch(NullPointerException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -730,7 +730,7 @@ public class Adicionar_despesa extends javax.swing.JFrame {
         catch(NumberFormatException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             return false;
         }
     }
@@ -744,7 +744,7 @@ public class Adicionar_despesa extends javax.swing.JFrame {
         catch(NumberFormatException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             return false;
         }
     }

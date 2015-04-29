@@ -360,7 +360,7 @@ public class Consultar_despesa extends javax.swing.JFrame {
 
     private void set_lista_projectos(){
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.username)).get_connection();
         String sql;
         PreparedStatement ps;
         ResultSet rs;
@@ -381,7 +381,7 @@ public class Consultar_despesa extends javax.swing.JFrame {
             catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.username,e);
             }
         }  
         rs.close();
@@ -392,7 +392,7 @@ public class Consultar_despesa extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     

@@ -100,7 +100,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
 			return null;
 		}
     }
@@ -502,7 +502,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
     private int change_pass_bd(String username, String pass){
         try{
         	byte[] pass_b = set_password(pass);
-	        Connection con = (new Connection_bd()).get_connection();
+	        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
 	        PreparedStatement ps;
 	        String sql;
 	        sql = "update tnm_enc_logb set username=?, password=? where username=?";
@@ -525,7 +525,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 1;
         }
         return 0;
@@ -547,7 +547,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
     
     private int change_funcionario_bd(Funcionario f){
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         PreparedStatement ps;
         String sql;
         sql = "update tnm_funcionario set nome=?, telemovel_pt=?, telemovel_ao=?, mail=?, admin=?, skype=?, data_nascimento=?, foto=? where username=?";
@@ -579,7 +579,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 1;
         }
         return 0;
@@ -598,7 +598,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
 	        } catch (IOException e) {    
 	            e.printStackTrace();  
 	            this.setCursor(Cursor.getDefaultCursor());
-	            new Log_erros_class().write_log_to_file(e);
+	            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
 	        }    
 	        return buff.toByteArray();  
         }
@@ -611,7 +611,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
         String ret = "";
         byte[] pass_b = null;
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         PreparedStatement ps;
         String sql;
         sql = "select * from tnm_enc_logb where username=?";
@@ -628,7 +628,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
         return ret;
     }
@@ -727,7 +727,7 @@ public class Alterar_perfil extends javax.swing.JFrame {
 				} catch (IOException e) {
 					e.printStackTrace();
 		            this.setCursor(Cursor.getDefaultCursor());
-		            new Log_erros_class().write_log_to_file(e);
+		            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
 				}
             	eliminar_foto_botao.setVisible(true);
             }

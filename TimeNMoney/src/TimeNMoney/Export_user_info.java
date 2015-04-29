@@ -495,7 +495,7 @@ public class Export_user_info extends JFrame {
 		catch(Exception e){
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.dm.username,e);
 			return 1;
 		}
 	}
@@ -568,7 +568,7 @@ public class Export_user_info extends JFrame {
         catch(Exception e){
         	e.printStackTrace();
         	this.setCursor(Cursor.getDefaultCursor());
-        	new Log_erros_class().write_log_to_file(e);
+        	new Log_erros_class().write_log_to_file(this.dm.username,e);
         	return 1;
         }
 	}

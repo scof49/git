@@ -62,9 +62,10 @@ public class Admin_manager extends JFrame {
 	private TreeMap<String,TreeMap<String,Funcionario>> lista_geridos_total;
 	private Connection con;
 	private boolean init_flag;
+	private String username;
 
 	@SuppressWarnings({ "rawtypes" })
-	public Admin_manager() {
+	public Admin_manager(String username) {
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		this.init_flag = true;
 		addWindowListener(new WindowAdapter() {
@@ -209,13 +210,14 @@ public class Admin_manager extends JFrame {
 		contentPane.add(panel_1);
 		contentPane.add(save_btn);
 		contentPane.add(cancel_btn);
-		init();
+		init(username);
 		this.init_flag = false;
 		this.setCursor(Cursor.getDefaultCursor());
 	}
 	
-	private void init(){
-		this.con = (new Connection_bd()).get_connection();
+	private void init(String username){
+		this.username = username;
+		this.con = (new Connection_bd(this.username)).get_connection();
 		set_lista_funcionarios(this.con);
 		set_combo_funcionarios();
 		String username_activo = get_user_combo();
@@ -270,7 +272,7 @@ public class Admin_manager extends JFrame {
 		catch(Exception e){
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
 			return 1;
 		}
 	}
@@ -290,7 +292,7 @@ public class Admin_manager extends JFrame {
 		catch(Exception e){
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
 			return 1;
 		}
 	}
@@ -410,7 +412,7 @@ public class Admin_manager extends JFrame {
 		  {
 		      e.printStackTrace();
 		      this.setCursor(Cursor.getDefaultCursor());
-		      new Log_erros_class().write_log_to_file(e);
+		      new Log_erros_class().write_log_to_file(this.username,e);
 		  }
     }
 	
@@ -452,7 +454,7 @@ public class Admin_manager extends JFrame {
 		  {
 		      e.printStackTrace();
 		      this.setCursor(Cursor.getDefaultCursor());
-		      new Log_erros_class().write_log_to_file(e);
+		      new Log_erros_class().write_log_to_file(this.username,e);
 		  }
 		return lista;
 	}

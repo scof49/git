@@ -102,7 +102,7 @@ public class Menu_log_in extends javax.swing.JFrame {
         else
         {
             try{
-                Connection con = (new Connection_bd()).get_connection();
+                Connection con = (new Connection_bd("login")).get_connection();
                 String sql = "SELECT * FROM tnm_FUNCIONARIO";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
@@ -142,7 +142,7 @@ public class Menu_log_in extends javax.swing.JFrame {
             {
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file("login",e);
             }
         }
     }
@@ -157,7 +157,7 @@ public class Menu_log_in extends javax.swing.JFrame {
         else
         {
             try{
-                Connection con = (new Connection_bd()).get_connection();
+                Connection con = (new Connection_bd("login")).get_connection();
                 java.sql.Statement stmt = con.createStatement();
 
                 ResultSet rs = stmt.executeQuery("SELECT * FROM tnm_enc_logb WHERE USERNAME = '"+ user + "'");
@@ -169,7 +169,7 @@ public class Menu_log_in extends javax.swing.JFrame {
             {
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file("login",e);
             }
         }
         String pass = get_password(pass_b);
@@ -188,7 +188,7 @@ public class Menu_log_in extends javax.swing.JFrame {
 		}catch(Exception e) {
 			 e.printStackTrace();
 			 this.setCursor(Cursor.getDefaultCursor());
-			 new Log_erros_class().write_log_to_file(e);
+			 new Log_erros_class().write_log_to_file("login",e);
 			 return "";
 		}
 	}

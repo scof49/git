@@ -60,8 +60,9 @@ public class Ativar_desativar_user extends JFrame {
 	private JList<String> list;
 	private JList<String> lista_ativos;
 	private JList<String> lista_inativos;
+	private String username;
 
-	public Ativar_desativar_user() {
+	public Ativar_desativar_user(String username) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
@@ -198,14 +199,14 @@ public class Ativar_desativar_user extends JFrame {
 						.addComponent(cancel_button, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)))
 		);
 		contentPane.setLayout(gl_contentPane);
-		init();
+		init(username);
 	}
 	
-	private void init(){
-		Connection con = (new Connection_bd()).get_connection();
+	private void init(String username){
+		Connection con = (new Connection_bd(this.username)).get_connection();
 		lista_funcionarios_todos = get_lista_funcionarios(con);
 		lista_funcionarios_inativos = get_lista_funcionarios_inativos(con);
-		
+		this.username = username;
 		set_lista_ativos();
 		set_lista_inactivos();
 	}
@@ -216,7 +217,7 @@ public class Ativar_desativar_user extends JFrame {
 	
 	private void save_action(){
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		Connection con = (new Connection_bd()).get_connection();
+		Connection con = (new Connection_bd(this.username)).get_connection();
 		
 		//get users para desativar
 		ArrayList<String> users_para_desativar = get_users_para_desativar();
@@ -271,7 +272,7 @@ public class Ativar_desativar_user extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
 			return 1;
 		}
 		
@@ -305,7 +306,7 @@ public class Ativar_desativar_user extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
 			return 1;
 		}
 		
@@ -369,7 +370,7 @@ public class Ativar_desativar_user extends JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         return lista_aux;
 	}
@@ -392,7 +393,7 @@ public class Ativar_desativar_user extends JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         return lista_aux;
 	}

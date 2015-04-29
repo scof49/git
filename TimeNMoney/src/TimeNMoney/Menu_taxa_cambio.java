@@ -125,7 +125,7 @@ public class Menu_taxa_cambio extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
     }
     
@@ -323,7 +323,7 @@ public class Menu_taxa_cambio extends javax.swing.JFrame {
         catch(NumberFormatException | HeadlessException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
             if (akz_field.getText().equals("") || usd_field.getText().equals(""))
                 JOptionPane.showMessageDialog(null, "Campos vazios, tem que preencher todos os campos!");
             else
@@ -362,7 +362,7 @@ public class Menu_taxa_cambio extends javax.swing.JFrame {
     	catch(SQLException e){
     		e.printStackTrace();
     		this.setCursor(Cursor.getDefaultCursor());
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.username_admin,e);
     	}
     }
     

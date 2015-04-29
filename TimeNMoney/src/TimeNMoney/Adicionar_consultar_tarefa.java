@@ -61,7 +61,7 @@ public class Adicionar_consultar_tarefa extends javax.swing.JFrame {
     	TreeMap<String,Tarefa> lista_aux = new TreeMap<String,Tarefa>();
         DefaultListModel dlm = new DefaultListModel();
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         //etapas
         String sql = "select * from tnm_trf_tarefa order by nome";
         PreparedStatement ps=con.prepareStatement(sql);
@@ -92,13 +92,13 @@ public class Adicionar_consultar_tarefa extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
     }
     
     private int exist_id_bd(String id){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "select * from tnm_trf_tarefa where id = '" + id + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -110,7 +110,7 @@ public class Adicionar_consultar_tarefa extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 0;
         }
     }
@@ -122,7 +122,7 @@ public class Adicionar_consultar_tarefa extends javax.swing.JFrame {
         String desc = text_area_descricao.getText();
         try{
         String sql;
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         String id_auxiliar;
         PreparedStatement ps;
         if (novo)
@@ -179,7 +179,7 @@ public class Adicionar_consultar_tarefa extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 0;
         }
         return 1;
@@ -196,7 +196,7 @@ public class Adicionar_consultar_tarefa extends javax.swing.JFrame {
 		catch(SQLException e){
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
 		}
 	}
 
@@ -572,7 +572,7 @@ public class Adicionar_consultar_tarefa extends javax.swing.JFrame {
 
     private int delete_from_bd(String id){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "delete from tnm_trf_tarefa where id = '" + id + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ps.executeUpdate();
@@ -588,7 +588,7 @@ public class Adicionar_consultar_tarefa extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 1;
         }
     }

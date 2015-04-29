@@ -304,7 +304,7 @@ public class Export_to_excel extends javax.swing.JFrame {
     			aux++;
     		}
     		
-    		Connection con = new Connection_bd().get_connection();
+    		Connection con = new Connection_bd(this.username).get_connection();
     		WritableSheet sheet_projectos = workbook.createSheet("Projectos", 1);
     		sheet_projectos = set_projectos_sheet(sheet_projectos,con);
     		WritableSheet sheet_cliente = workbook.createSheet("Cliente", 2);
@@ -324,7 +324,7 @@ public class Export_to_excel extends javax.swing.JFrame {
 		{
 			e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
 		} 
         this.setCursor(Cursor.getDefaultCursor());
     }
@@ -356,7 +356,7 @@ public class Export_to_excel extends javax.swing.JFrame {
         catch(SQLException | WriteException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             this.setCursor(Cursor.getDefaultCursor());
         }
 		return sheet_tipo_despesa;
@@ -389,7 +389,7 @@ public class Export_to_excel extends javax.swing.JFrame {
         catch(SQLException | WriteException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             this.setCursor(Cursor.getDefaultCursor());
         }
 		return sheet_tarefas;
@@ -422,7 +422,7 @@ public class Export_to_excel extends javax.swing.JFrame {
         catch(SQLException | WriteException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             this.setCursor(Cursor.getDefaultCursor());
         }
 		return sheet_atividades;
@@ -455,7 +455,7 @@ public class Export_to_excel extends javax.swing.JFrame {
         catch(SQLException | WriteException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             this.setCursor(Cursor.getDefaultCursor());
         }
 		return sheet_etapas;
@@ -488,7 +488,7 @@ public class Export_to_excel extends javax.swing.JFrame {
         catch(SQLException | WriteException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             this.setCursor(Cursor.getDefaultCursor());
         }
     	
@@ -515,7 +515,7 @@ public class Export_to_excel extends javax.swing.JFrame {
             }
             catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                 e.printStackTrace();
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.username,e);
                 this.setCursor(Cursor.getDefaultCursor());
             }
         }  
@@ -536,7 +536,7 @@ public class Export_to_excel extends javax.swing.JFrame {
         catch(SQLException | WriteException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             this.setCursor(Cursor.getDefaultCursor());
         }
 		return sheet_projectos;
@@ -591,7 +591,7 @@ public class Export_to_excel extends javax.swing.JFrame {
     		Label c10 = new Label(9,linha,"Notas",set_cell_style());
     		sheet.addCell(c10);
     		
-    		Connection con = new Connection_bd().get_connection();
+    		Connection con = new Connection_bd(this.username).get_connection();
 
     		WritableSheet sheet_tipo_despesa = workbook.createSheet("Tipo de despesa", 1);
     		sheet_tipo_despesa = set_tipos_sheet(sheet_tipo_despesa,con);
@@ -612,7 +612,7 @@ public class Export_to_excel extends javax.swing.JFrame {
 		{
 			e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
 		} 
     }
 

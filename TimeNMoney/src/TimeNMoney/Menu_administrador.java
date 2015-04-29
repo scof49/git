@@ -30,7 +30,7 @@ public class Menu_administrador extends javax.swing.JFrame {
     public Menu_administrador(Funcionario f) {
         initComponents();
         this.inicializacao = true;
-        this.con = (new Connection_bd()).get_connection();
+        this.con = (new Connection_bd(this.user.get_username())).get_connection();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("odkas.tnm.png")));
         this.user = f;
         set_lista_projectos();
@@ -74,7 +74,7 @@ public class Menu_administrador extends javax.swing.JFrame {
 		  {
 		      e.printStackTrace();
 		      this.setCursor(Cursor.getDefaultCursor());
-		      new Log_erros_class().write_log_to_file(e);
+		      new Log_erros_class().write_log_to_file(this.user.get_username(),e);
 		  }
     }
 
@@ -102,7 +102,7 @@ public class Menu_administrador extends javax.swing.JFrame {
             catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.user.get_username(),e);
             }
         }  
         rs.close();
@@ -113,7 +113,7 @@ public class Menu_administrador extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.user.get_username(),e);
         }
     }
     
@@ -662,7 +662,7 @@ public class Menu_administrador extends javax.swing.JFrame {
     			//update connection
     			if (!this.con.isValid(10))
     			{
-    				Connection con2 = (new Connection_bd()).get_connection();
+    				Connection con2 = (new Connection_bd(this.user.get_username())).get_connection();
     				this.con.close();
     				this.con = con2;
     			}
@@ -671,7 +671,7 @@ public class Menu_administrador extends javax.swing.JFrame {
 	    	catch(Exception e){
 	    		e.printStackTrace();
 	    		this.setCursor(Cursor.getDefaultCursor());
-	    		new Log_erros_class().write_log_to_file(e);
+	    		new Log_erros_class().write_log_to_file(this.user.get_username(),e);
 	    	}
     	}
     }

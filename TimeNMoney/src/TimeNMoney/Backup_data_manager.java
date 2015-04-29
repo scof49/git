@@ -29,7 +29,7 @@ public class Backup_data_manager {
         }
         catch(IOException e){
             e.printStackTrace(); // If there was an error, print the info.
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
         }
     }
 	
@@ -44,7 +44,7 @@ public class Backup_data_manager {
         }
         catch(IOException | ClassNotFoundException e){
         	e.printStackTrace(); // If there was an error, print the info.
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
         	this.dm = null;
         }
         return this.dm;
@@ -59,7 +59,7 @@ public class Backup_data_manager {
         }
         catch(Exception e){
         	e.printStackTrace(); // If there was an error, print the info.
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
         }
     }
 }

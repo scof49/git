@@ -74,7 +74,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
         ArrayList<Funcionario> lista_aux = new ArrayList<>();
         DefaultListModel dlm = new DefaultListModel();
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         String sql = "select * from tnm_funcionario";
         PreparedStatement ps=con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -115,14 +115,14 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
     }
     
     private int exist_username_bd(String user_name){
         int res;
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "select * from tnm_funcionario where username = '" + user_name + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -138,7 +138,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             res = 0;
         }
         return res;
@@ -156,7 +156,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
         Date dn = data_nascimento_field.getDate();
         try{
     	String sql;
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         String id_auxiliar;
         PreparedStatement ps;
         int op = 0;
@@ -254,7 +254,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 0;
         }
         return 1;
@@ -275,7 +275,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
     }
     
@@ -291,7 +291,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
     	catch(Exception e){
     		e.printStackTrace();
     		this.setCursor(Cursor.getDefaultCursor());
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
     	}
     }
     
@@ -323,7 +323,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
     	catch(Exception e){
     		e.printStackTrace();
     		this.setCursor(Cursor.getDefaultCursor());
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
     	}
     	return res;
     }
@@ -845,7 +845,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
     	try{
 	    	String pass = "odkas.tnm";
 	    	byte[] pass_b = set_password(pass);
-    		Connection con = (new Connection_bd()).get_connection();
+    		Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
     		
     		String sql = "select * from tnm_enc_logb where username = ?";
     		PreparedStatement ps=con.prepareStatement(sql);
@@ -868,14 +868,14 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
     	catch(Exception e){
     		e.printStackTrace();
     		this.setCursor(Cursor.getDefaultCursor());
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 1;
     	}
     }
     
     private int delete_from_bd(String username){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "delete from tnm_funcionario where username = '" + username + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ps.executeUpdate();
@@ -895,7 +895,7 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 1;
         }
     }
@@ -918,14 +918,14 @@ public class Adicionar_consultar_funcionario extends javax.swing.JFrame {
     
     private void goto_menu_ap_disap_funcionario(){
     	this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-    	Ativar_desativar_user adu = new Ativar_desativar_user();
+    	Ativar_desativar_user adu = new Ativar_desativar_user(this.funcionario.get_username());
     	adu.setVisible(true);
     	this.setCursor(Cursor.getDefaultCursor());
     }
     
     private void goto_menu_manager(){
     	this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-    	Admin_manager am = new Admin_manager();
+    	Admin_manager am = new Admin_manager(this.funcionario.get_username());
     	am.setVisible(true);
     	this.setCursor(Cursor.getDefaultCursor());
     }

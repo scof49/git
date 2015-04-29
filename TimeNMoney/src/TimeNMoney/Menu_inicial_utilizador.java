@@ -106,7 +106,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     		menu_manager.setVisible(false);
     		e.printStackTrace();
     		this.setCursor(Cursor.getDefaultCursor());
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.dm.username,e);
     	}
     }
     
@@ -133,7 +133,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     
     private void update_handlers(){
     	String username = this.funcionario.get_username();
-    	Connection con = (new Connection_bd()).get_connection();
+    	Connection con = (new Connection_bd(this.dm.username)).get_connection();
     	if (con != null){
     		Backup_data_manager bdm = new Backup_data_manager(this.dm);
     		bdm.save_backup_file();
@@ -160,7 +160,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     
     private void update_listas(){
     	String username = this.funcionario.get_username();
-    	Connection con = (new Connection_bd()).get_connection();
+    	Connection con = (new Connection_bd(this.dm.username)).get_connection();
     	if (con != null){
     		Backup_data_manager bdm = new Backup_data_manager(this.dm);
     		bdm.save_backup_file();
@@ -183,13 +183,13 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     public int send_partial_auto_action(){
     	int res = 0;
         try {
-	    	Connection con = (new Connection_bd()).get_connection();
+	    	Connection con = (new Connection_bd(this.dm.username)).get_connection();
 	    	res += send_nova_tarefa_proj(con);
 	    	con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.dm.username,e);
         	res++;
 		}
         return res;
@@ -219,7 +219,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
         catch(Exception e){
         	e.printStackTrace();
         	this.setCursor(Cursor.getDefaultCursor());
-        	new Log_erros_class().write_log_to_file(e);
+        	new Log_erros_class().write_log_to_file(this.dm.username,e);
         	res++;
         }
         return res;
@@ -251,7 +251,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
             res++;
         }
 
@@ -270,7 +270,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
 		catch(SQLException e){
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.dm.username,e);
 		}
 	}
     
@@ -308,7 +308,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
             catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.dm.username,e);
                 res++;
             }  
         }
@@ -317,7 +317,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
             res++;
         }
 
@@ -932,7 +932,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	Runnable runnable_estados = new Runnable() {
     	    public void run() {
     	    	try{
-	    	    	Connection con = (new Connection_bd()).get_connection();
+	    	    	Connection con = (new Connection_bd("thread")).get_connection();
 	    	        boolean con_ready = false;
 					if (con!=null)
 						con_ready = con.isValid(300);
@@ -940,7 +940,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	    	}
     	    	catch(Exception e){
     	    		e.printStackTrace();
-    	    		new Log_erros_class().write_log_to_file(e);
+    	    		new Log_erros_class().write_log_to_file("thread",e);
     	    		change_light_bd(false);
     	    	}
     	    }
@@ -953,12 +953,12 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	Runnable runnable_log = new Runnable() {
     	    public void run() {
 	    		try{
-	    	    	Connection con = (new Connection_bd()).get_connection();
+	    	    	Connection con = (new Connection_bd("thread")).get_connection();
 	    	        confirma_log(con);
     	    	}
     	    	catch(Exception e){
     	    		e.printStackTrace();
-    	    		new Log_erros_class().write_log_to_file(e);
+    	    		new Log_erros_class().write_log_to_file("thread",e);
     	    	}
     	    }
     	};
@@ -979,7 +979,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
     		this.setCursor(Cursor.getDefaultCursor());
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.dm.username,e);
 		}
     	
     	
@@ -1026,7 +1026,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
             catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.dm.username,e);
             }
         }  
         rs.close();
@@ -1037,14 +1037,14 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
         }
     	return lista_projectos;
     }
     
     private void goto_revisao_horas(){
     	this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-    	Connection con = (new Connection_bd()).get_connection();
+    	Connection con = (new Connection_bd(this.dm.username)).get_connection();
         TreeMap<String, Projecto> lista_projectos = get_lista_projectos(con);
 		Menu_aprova_tarefas_horas mah = new Menu_aprova_tarefas_horas(this.funcionario.get_username(),lista_projectos,con,this.dm.funcionario_geridos_por_mim);
         mah.setVisible(true);
@@ -1053,7 +1053,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     
     private void goto_revisao_despesas(){
     	this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-    	Connection con = (new Connection_bd()).get_connection();
+    	Connection con = (new Connection_bd(this.dm.username)).get_connection();
         TreeMap<String, Projecto> lista_projectos = get_lista_projectos(con);
         Aprovar_despesas ad = new Aprovar_despesas(this.funcionario.get_username(),lista_projectos,con,this.dm.funcionario_geridos_por_mim);
         ad.setVisible(true);
@@ -1080,7 +1080,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	catch (IOException e) {
 			e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
 			return null;
 		}
     }
@@ -1160,7 +1160,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
 			} catch (IOException e) {
 				e.printStackTrace();
 	            this.setCursor(Cursor.getDefaultCursor());
-	            new Log_erros_class().write_log_to_file(e);
+	            new Log_erros_class().write_log_to_file(this.dm.username,e);
 			}
     	}
     }
@@ -1169,7 +1169,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	FileOutputStream fos = null;
     	File f = null;
     	try{
-    		Connection con = (new Connection_bd()).get_connection();
+    		Connection con = (new Connection_bd(this.dm.username)).get_connection();
     		String sql = "select * from tnm_update_table where versao = ?";
     		String name = "";
     		String path = "";
@@ -1194,7 +1194,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	catch(Exception e){
     		e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
     	}
     	return f;
     }
@@ -1202,7 +1202,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     private String get_last_version_bd(){
     	String big_ver = "0.0.0.0";
     	try{
-    	Connection con = (new Connection_bd()).get_connection();
+    	Connection con = (new Connection_bd(this.dm.username)).get_connection();
     	String sql = "select versao from tnm_update_table";
     	PreparedStatement ps = con.prepareStatement(sql);
     	ResultSet rs = ps.executeQuery();
@@ -1218,7 +1218,7 @@ public class Menu_inicial_utilizador extends javax.swing.JFrame {
     	catch(Exception e){
     		e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.dm.username,e);
     	}
     	return big_ver;
     }

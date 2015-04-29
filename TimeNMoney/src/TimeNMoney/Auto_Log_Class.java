@@ -87,7 +87,7 @@ public class Auto_Log_Class {
 	private String get_pass_from_bd(String user){
         byte[] pass_b = null;
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(user)).get_connection();
             java.sql.Statement stmt = con.createStatement();
             
             ResultSet rs = stmt.executeQuery("SELECT * FROM tnm_enc_logb WHERE USERNAME = '"+ user +"'");
@@ -98,7 +98,7 @@ public class Auto_Log_Class {
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(user,e);
         }
         String pass = get_password(pass_b);
         return pass;
@@ -115,7 +115,7 @@ public class Auto_Log_Class {
 	        return decrypted;
 	    }catch(Exception e) {
 	    	e.printStackTrace();
-	    	new Log_erros_class().write_log_to_file(e);
+	    	new Log_erros_class().write_log_to_file("null",e);
             return "";
 	    }
     }

@@ -943,7 +943,7 @@ public class Menu_despesas extends javax.swing.JFrame {
         } catch (BiffException | IOException e) {
           e.printStackTrace();
           this.setCursor(Cursor.getDefaultCursor());
-          new Log_erros_class().write_log_to_file(e);
+          new Log_erros_class().write_log_to_file(this.username,e);
         } 
     }
     
@@ -1232,7 +1232,7 @@ public class Menu_despesas extends javax.swing.JFrame {
         }
         
         try {
-	        Connection con = (new Connection_bd()).get_connection();
+	        Connection con = (new Connection_bd(this.username)).get_connection();
 	        if (con!=null){
 		        for (Despesa_new d : this.lista){
 		            if (this.dm.get_despesas_adicionadas_alteradas().contains(d.get_id()))
@@ -1259,7 +1259,7 @@ public class Menu_despesas extends javax.swing.JFrame {
 	        	res++;
 		} catch (SQLException e) {
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
 			e.printStackTrace();
 			res++;
 		}
@@ -1291,7 +1291,7 @@ public class Menu_despesas extends javax.swing.JFrame {
     	}
     	catch(Exception e){
     		this.setCursor(Cursor.getDefaultCursor());
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.username,e);
 			e.printStackTrace();
 			return 1;
     	}
@@ -1340,7 +1340,7 @@ public class Menu_despesas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             ret++;
         }
         return ret;
@@ -1369,7 +1369,7 @@ public class Menu_despesas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             ret++;
         }
         return ret;
@@ -1387,7 +1387,7 @@ public class Menu_despesas extends javax.swing.JFrame {
                 catch(IOException e){
                     e.printStackTrace();
                     this.setCursor(Cursor.getDefaultCursor());
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username,e);
                     JOptionPane.showMessageDialog(null, "Erro ao abrir recibo!");
                 }
             }

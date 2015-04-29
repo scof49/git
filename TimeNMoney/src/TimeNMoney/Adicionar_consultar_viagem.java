@@ -73,7 +73,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
         ArrayList<Viagem> lista_aux = new ArrayList<>();
         DefaultListModel dlm = new DefaultListModel();
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.user.get_username())).get_connection();
         String sql = "select * from tnm_viagens";
         if (!this.user.get_admin())
             sql+= " where funcionario = '"+ this.user.get_nome() +"'";
@@ -109,14 +109,14 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.user.get_username(),e);
         }
     }
     
     @SuppressWarnings("unchecked")
 	private void carrega_lista_funcionarios(){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.user.get_username())).get_connection();
             String sql = "select * from tnm_funcionario" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -130,7 +130,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.user.get_username(),e);
         }
         
         if (this.user.get_admin()){
@@ -148,7 +148,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
     
     private int exist_id_bd(String id){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.user.get_username())).get_connection();
             String sql = "select * from tnm_viagens where id = '" + id + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -160,7 +160,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.user.get_username(),e);
             return 0;
         }
     }
@@ -176,7 +176,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
         try{
             String sql;
             PreparedStatement ps;
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.user.get_username())).get_connection();
             String id_auxiliar;
             if (novo)
                 id_auxiliar = id;
@@ -253,7 +253,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.user.get_username(),e);
             return 0;
         }
         return 1;
@@ -715,7 +715,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
     private void botao_id_autoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_id_autoActionPerformed
         ArrayList<String> lista_aux = new ArrayList<>();
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.user.get_username())).get_connection();
             String sql = "select * from tnm_viagens" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -729,7 +729,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.user.get_username(),e);
         }        
     }//GEN-LAST:event_botao_id_autoActionPerformed
 
@@ -751,7 +751,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
             catch(NumberFormatException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.user.get_username(),e);
             }
         }
         if (i<10)
@@ -767,7 +767,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
     
     private int delete_from_bd(String id){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.user.get_username())).get_connection();
             String sql = "delete from tnm_viagens where id = '" + id + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ps.executeUpdate();
@@ -776,7 +776,7 @@ public class Adicionar_consultar_viagem extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.user.get_username(),e);
             return 1;
         }
     }

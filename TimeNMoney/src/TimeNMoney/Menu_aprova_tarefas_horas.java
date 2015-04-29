@@ -806,7 +806,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
         }catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
             return false;
         }
     }
@@ -877,7 +877,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
         }catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
     }//GEN-LAST:event_cons_notaActionPerformed
 
@@ -966,7 +966,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
                 catch(HeadlessException | IOException | SQLException e){
                     e.printStackTrace();
                     this.setCursor(Cursor.getDefaultCursor());
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username_admin,e);
                 }
             }
             rs.close();
@@ -976,7 +976,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
         this.lista = aux;
     }
@@ -1130,7 +1130,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
 	  {
 	      e.printStackTrace();
 	      this.setCursor(Cursor.getDefaultCursor());
-	      new Log_erros_class().write_log_to_file(e);
+	      new Log_erros_class().write_log_to_file(this.username_admin,e);
 	  }
     	
     	ArrayList<Date> dias_submetidos = get_dias_submetidos();
@@ -1261,7 +1261,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
     }
     
@@ -1307,7 +1307,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
             }
             catch(NumberFormatException e){
             	this.setCursor(Cursor.getDefaultCursor());
-            	new Log_erros_class().write_log_to_file(e);
+            	new Log_erros_class().write_log_to_file(this.username_admin,e);
                 tot = 0.0;
             }
             switch(i){
@@ -1460,7 +1460,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
     	catch(Exception e){
     		e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
     		return Calendar.getInstance().getTime();
     	}
     }
@@ -1598,7 +1598,7 @@ public class Menu_aprova_tarefas_horas extends javax.swing.JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
     }
     

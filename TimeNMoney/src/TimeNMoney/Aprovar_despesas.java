@@ -164,7 +164,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
         this.estados = estado;
     }
@@ -221,7 +221,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
                 catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                     e.printStackTrace();
                     this.setCursor(Cursor.getDefaultCursor());
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username_admin,e);
                 }
             }
             rs.close();
@@ -231,7 +231,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
         this.lista = aux;
     }
@@ -583,7 +583,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
             
         } catch (IOException | SQLException e) {
         	this.setCursor(Cursor.getDefaultCursor());
-        	new Log_erros_class().write_log_to_file(e);
+        	new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
     }
     
@@ -611,7 +611,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
             
         } catch (IOException | SQLException e) {
         	this.setCursor(Cursor.getDefaultCursor());
-        	new Log_erros_class().write_log_to_file(e);
+        	new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
     }
     
@@ -724,7 +724,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
                 catch(IOException e){
                     e.printStackTrace();
                     this.setCursor(Cursor.getDefaultCursor());
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username_admin,e);
                     JOptionPane.showMessageDialog(null, "Erro ao abrir recibo!");
                 }
             }
@@ -797,7 +797,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
             
         } catch (SQLException e) {
         	this.setCursor(Cursor.getDefaultCursor());
-        	new Log_erros_class().write_log_to_file(e);
+        	new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
     }
 
@@ -851,7 +851,7 @@ public class Aprovar_despesas extends javax.swing.JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
     }
     

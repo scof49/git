@@ -16,9 +16,11 @@ import java.sql.SQLException;
  */
 public class Connection_bd {
     Connection con;
+    private String username;
     
-    public Connection_bd(){
-        set_connection();
+    public Connection_bd(String user){
+    	this.username = user;
+    	set_connection();
     }
     
     private void set_connection(){
@@ -45,7 +47,7 @@ public class Connection_bd {
         catch(ClassNotFoundException | SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     

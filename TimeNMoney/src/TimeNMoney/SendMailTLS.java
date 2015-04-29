@@ -33,7 +33,7 @@ public class SendMailTLS {
 		  });
 	}
 	
-	public void send_mail_relatorio_erro(String mail_to, String msg_txt) {
+	public void send_mail_relatorio_erro(String username, String mail_to, String msg_txt) {
 		try {
  
 			Message message = new MimeMessage(session);
@@ -44,6 +44,9 @@ public class SendMailTLS {
 				message.setText("Relatório de Erros Time & Money"+
 								"\n---------------------------------------"+
 								"\n\n"+
+								username +
+								"\n---------------------------------------"+
+								"\n\n" +
 								msg_txt);
 			
 			Transport.send(message);

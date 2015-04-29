@@ -328,7 +328,7 @@ public class Menu_preferencias_favoritos extends javax.swing.JFrame {
     private int set_to_bd(TarefaHoras t){
         int res = 0;
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.username)).get_connection();
         PreparedStatement ps;
         String sql;
 
@@ -364,7 +364,7 @@ public class Menu_preferencias_favoritos extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
         return res;
@@ -373,7 +373,7 @@ public class Menu_preferencias_favoritos extends javax.swing.JFrame {
     private int remove_from_bd(TarefaHoras t){
         int res = 0;
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.username)).get_connection();
         PreparedStatement ps;
         String sql;
         sql = "delete from tnm_tarefas_favoritos where id_tarefa = '" +t.get_id()+"' and username='"+this.username+"'";
@@ -386,7 +386,7 @@ public class Menu_preferencias_favoritos extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
         return res;

@@ -194,7 +194,7 @@ public class Data_manager implements Serializable{
     private void get_save_data_bd(String username){
         //if nao existe, le da bd
     	try {
-	    	Connection con = (new Connection_bd()).get_connection();
+	    	Connection con = (new Connection_bd(this.username)).get_connection();
 	        get_despesas_from_bd(username,con);
 	        get_estado_despesas(username,con);
 	        get_list_projectos_from_bd(username,con);
@@ -220,7 +220,7 @@ public class Data_manager implements Serializable{
         	con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
 		}
     }
     
@@ -295,7 +295,7 @@ public class Data_manager implements Serializable{
 	public void update_save_data_bd(String username){
         //if nao existe, le da bd
     	try {
-	    	Connection con = (new Connection_bd()).get_connection();
+	    	Connection con = (new Connection_bd(this.username)).get_connection();
 	    	get_lista_tarefas(con);
 	        get_list_projectos_from_bd(username,con);
 	        get_list_tipos_despesa(con);
@@ -306,7 +306,7 @@ public class Data_manager implements Serializable{
 	        con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
 		}
     }
     
@@ -327,7 +327,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
 	}
 
@@ -359,7 +359,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -391,7 +391,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -418,7 +418,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -446,7 +446,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
         return res;
@@ -471,7 +471,7 @@ public class Data_manager implements Serializable{
                 }
                 catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                     e.printStackTrace();
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username,e);
                 }
             }
             ps.close();
@@ -480,7 +480,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         this.despesas_user = aux;
     }
@@ -504,7 +504,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         this.estado_despesas_user = estado;
     }
@@ -529,7 +529,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
         this.estado_despesas_user = estado;
@@ -558,7 +558,7 @@ public class Data_manager implements Serializable{
             }
             catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                 e.printStackTrace();
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.username,e);
             }
         }  
         rs.close();
@@ -570,7 +570,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -596,7 +596,7 @@ public class Data_manager implements Serializable{
             }
             catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                 e.printStackTrace();
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.username,e);
                 res++;
             }
         }  
@@ -609,7 +609,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
         return res;
@@ -635,7 +635,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -659,7 +659,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
         return res;
@@ -689,7 +689,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -709,7 +709,7 @@ public class Data_manager implements Serializable{
         }
         catch(IOException e){
             e.printStackTrace(); // If there was an error, print the info.
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -732,7 +732,7 @@ public class Data_manager implements Serializable{
                 }
                 catch(HeadlessException | IOException | SQLException e){
                     e.printStackTrace();
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username,e);
                 }
             }
             rs.close();
@@ -741,7 +741,7 @@ public class Data_manager implements Serializable{
         catch(ClassNotFoundException | SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         this.lista_tarefas_time_user = aux;
     }
@@ -765,7 +765,7 @@ public class Data_manager implements Serializable{
                 }
                 catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                     e.printStackTrace();
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username,e);
                 }
             }
             rs.close();
@@ -774,7 +774,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         this.lista_tarefas_favoritas = aux;
     }
@@ -800,7 +800,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         this.lista_handler_horas = aux;
     }
@@ -827,7 +827,7 @@ public class Data_manager implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             ret++;
         }
         this.lista_handler_horas = aux;
@@ -850,7 +850,7 @@ public class Data_manager implements Serializable{
     	}
     	catch(Exception e){
     		e.printStackTrace();
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.username,e);
     	}
     	
     }
@@ -869,7 +869,7 @@ public class Data_manager implements Serializable{
     	}
     	catch(Exception e){
     		e.printStackTrace();
-    		new Log_erros_class().write_log_to_file(e);
+    		new Log_erros_class().write_log_to_file(this.username,e);
     	}
     	
     }
@@ -907,7 +907,7 @@ public class Data_manager implements Serializable{
 		  catch(SQLException e)
 		  {
 		      e.printStackTrace();
-		      new Log_erros_class().write_log_to_file(e);
+		      new Log_erros_class().write_log_to_file(this.username,e);
 		  }
     }
     

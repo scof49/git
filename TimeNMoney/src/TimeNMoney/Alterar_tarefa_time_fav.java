@@ -410,7 +410,7 @@ public class Alterar_tarefa_time_fav extends javax.swing.JFrame {
         } catch (ClassNotFoundException | SQLException | IOException e) {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         this.dispose();
         this.setCursor(Cursor.getDefaultCursor());
@@ -439,7 +439,7 @@ public class Alterar_tarefa_time_fav extends javax.swing.JFrame {
         catch(NullPointerException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -468,7 +468,7 @@ public class Alterar_tarefa_time_fav extends javax.swing.JFrame {
         catch(NullPointerException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -501,7 +501,7 @@ public class Alterar_tarefa_time_fav extends javax.swing.JFrame {
         }catch(Exception e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -638,7 +638,7 @@ public class Alterar_tarefa_time_fav extends javax.swing.JFrame {
         catch(NullPointerException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -680,7 +680,7 @@ public class Alterar_tarefa_time_fav extends javax.swing.JFrame {
         catch(NullPointerException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     

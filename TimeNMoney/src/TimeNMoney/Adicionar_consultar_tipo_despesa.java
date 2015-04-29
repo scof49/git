@@ -60,7 +60,7 @@ public class Adicionar_consultar_tipo_despesa extends javax.swing.JFrame {
         ArrayList<Tipo_despesa> lista_aux = new ArrayList<>();
         DefaultListModel dlm = new DefaultListModel();
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         String sql = "select * from tnm_tipo_despesa";
         PreparedStatement ps=con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -86,13 +86,13 @@ public class Adicionar_consultar_tipo_despesa extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
         }
     }
     
     private int exist_id_bd(String desc){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "select * from tnm_tipo_despesa where descricao = '" + desc + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -104,7 +104,7 @@ public class Adicionar_consultar_tipo_despesa extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 0;
         }
     }
@@ -115,7 +115,7 @@ public class Adicionar_consultar_tipo_despesa extends javax.swing.JFrame {
         try{
         String sql;
         PreparedStatement ps;
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
         String nome_auxiliar;
         if (novo)
             nome_auxiliar = nome;
@@ -164,7 +164,7 @@ public class Adicionar_consultar_tipo_despesa extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 0;
         }
         return 1;
@@ -496,7 +496,7 @@ public class Adicionar_consultar_tipo_despesa extends javax.swing.JFrame {
 
     private int delete_from_bd(String nome){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.funcionario.get_username())).get_connection();
             String sql = "delete from tnm_tipo_despesa where descricao = '" + nome + "'" ;
             PreparedStatement ps=con.prepareStatement(sql);
             ps.executeUpdate();
@@ -505,7 +505,7 @@ public class Adicionar_consultar_tipo_despesa extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.funcionario.get_username(),e);
             return 1;
         }
     }

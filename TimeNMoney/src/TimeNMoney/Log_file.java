@@ -119,7 +119,7 @@ public class Log_file implements Serializable{
         }
         catch(IOException e){
             //exc.printStackTrace(); // If there was an error, print the info.
-        	new Log_erros_class().write_log_to_file(e);
+        	new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
     
@@ -127,7 +127,7 @@ public class Log_file implements Serializable{
     @SuppressWarnings("unused")
 	private boolean get_credentials(){
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.username)).get_connection();
             PreparedStatement ps;
             ResultSet rs;
             String sql = "select * from tnm_enc_logb where username='"+ this.username +"'";
@@ -147,7 +147,7 @@ public class Log_file implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
         return false;
     }
@@ -163,7 +163,7 @@ public class Log_file implements Serializable{
 			return decrypted;
 	    }catch(Exception e) {
 	    	e.printStackTrace();
-	    	new Log_erros_class().write_log_to_file(e);
+	    	new Log_erros_class().write_log_to_file(this.username,e);
 	        return "";
 	    }
 	}
@@ -172,7 +172,7 @@ public class Log_file implements Serializable{
     public void get_lista_funcionarios(){
         this.lista_funcionarios = new ArrayList<Funcionario>();
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.username)).get_connection();
             java.sql.Statement stmt = con.createStatement();
             
             ResultSet rs = stmt.executeQuery("SELECT * FROM tnm_FUNCIONARIO");
@@ -212,7 +212,7 @@ public class Log_file implements Serializable{
         catch(SQLException e)
         {
             e.printStackTrace();
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         }
     }
 }

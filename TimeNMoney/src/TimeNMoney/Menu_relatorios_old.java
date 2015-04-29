@@ -723,7 +723,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
             catch(IOException | WriteException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.username_admin,e);
             }
         }
         else{
@@ -795,7 +795,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
             catch(IOException | WriteException e){
             	e.printStackTrace();
             	this.setCursor(Cursor.getDefaultCursor());
-            	new Log_erros_class().write_log_to_file(e);
+            	new Log_erros_class().write_log_to_file(this.username_admin,e);
             }
         }
     	return 0;
@@ -939,7 +939,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
             catch(WriteException | IOException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.username_admin,e);
             }
         }
         else{
@@ -1011,7 +1011,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
             catch(WriteException | IOException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.username_admin,e);
             }
         }
     	return 0;
@@ -1258,7 +1258,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
     	TreeMap<String,Projecto> projectos = new TreeMap<>();
         
         try{
-        Connection con = (new Connection_bd()).get_connection();
+        Connection con = (new Connection_bd(this.username_admin)).get_connection();
         //projectos
         String sql = "select * from tnm_trf_projecto" ;
         PreparedStatement ps = con.prepareStatement(sql);
@@ -1436,7 +1436,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
 	private String print_nota(String username,Date d,String id_tarefa){
         String nota = "";
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.username_admin)).get_connection();
             String sql = "select * from tnm_notas_tarefas where username = ? and id_tarefa = ? and data_nota = ?";
             PreparedStatement ps=con.prepareStatement(sql);
             ps.setString(1, username);
@@ -1452,7 +1452,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
         return nota;
     }
@@ -1465,7 +1465,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
     private TreeMap<Comparable_TarefaHoras,TreeMap<Date,Double>> get_tarefas_dias_aprovados(String username, ArrayList<Date> dias_aprovados){
     	TreeMap<Comparable_TarefaHoras,TreeMap<Date,Double>> aux = new TreeMap<>();
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.username_admin)).get_connection();
             String sql = "select * from tnm_tarefas where username = '"+ username + "'";
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -1491,14 +1491,14 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
                 catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                     e.printStackTrace();
                     this.setCursor(Cursor.getDefaultCursor());
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username_admin,e);
                 }
             }
         }
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
         return aux;
     }
@@ -1506,7 +1506,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
     private ArrayList<Date> get_lista_dias_aprovados(String username_funcionario, Date inicio, Date fim){
         ArrayList<Date> dias_aprovados = new ArrayList<>();
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.username_admin)).get_connection();
             String sql = "select * from tnm_handle_horas where username = ? and data between ? and ?";
             PreparedStatement ps=con.prepareStatement(sql);
             ps.setString(1, username_funcionario);
@@ -1524,7 +1524,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
         return dias_aprovados;
     }
@@ -1532,7 +1532,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
     private TreeMap<String,TreeMap<Integer,Despesa_new>> get_lista_despesas_aprovadas(String username_funcionario, Date inicio, Date fim){
         TreeMap<String,TreeMap<Integer,Despesa_new>> aprovados = new TreeMap<>();
         try{
-            Connection con = (new Connection_bd()).get_connection();
+            Connection con = (new Connection_bd(this.username_admin)).get_connection();
             String sql = "select * from tnm_handlepagamentos where username = ? and situacao = 2 and data between ? and ?";
             PreparedStatement ps=con.prepareStatement(sql);
             ps.setString(1, username_funcionario);
@@ -1560,7 +1560,7 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
         return aprovados;
     }
@@ -1586,14 +1586,14 @@ public class Menu_relatorios_old extends javax.swing.JFrame {
                 }catch(IOException | ClassNotFoundException | SQLException e){
                     e.printStackTrace();
                     this.setCursor(Cursor.getDefaultCursor());
-                    new Log_erros_class().write_log_to_file(e);
+                    new Log_erros_class().write_log_to_file(this.username_admin,e);
                 }
             }
         }
         catch(SQLException e){
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username_admin,e);
         }
         return aux_res;
     }

@@ -21,14 +21,14 @@ import java.util.Calendar;
 public class Log_erros_class {
     public Log_erros_class(){}
     
-    public void write_log_to_file(Exception e){
+    public void write_log_to_file(String username, Exception e){
         try{
         	String delimiter = "----------------------------------------------------\r\n";
         	StringWriter sw = new StringWriter();
         	PrintWriter pw = new PrintWriter(sw);
         	e.printStackTrace(pw);
         	String stack_str = sw.toString();
-        	send_mail_erro(stack_str);
+        	send_mail_erro(username,stack_str);
         	Calendar c = Calendar.getInstance();
 	        String data_hora = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH)+1) + "/" + c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
 	        String mensagem = delimiter + data_hora + " -\r\n " + stack_str + delimiter;
@@ -44,19 +44,19 @@ public class Log_erros_class {
 	        catch(IOException ex){}
     }
     
-    private void send_mail_erro(String msg_text){
+    private void send_mail_erro(String username, String msg_text){
     	Runnable r = new Runnable() {
     	    public void run() {
-    	    	send(msg_text);
+    	    	send(username, msg_text);
     	    }
     	};
     	new Thread(r).start();
     	
     }
     
-    private void send(String msg_text){
+    private void send(String username, String msg_text){
     	SendMailTLS smt = new SendMailTLS();
     	String mail_to = "ivo.oliveira@odkas.com";
-		smt.send_mail_relatorio_erro(mail_to, msg_text);
+		smt.send_mail_relatorio_erro(username, mail_to, msg_text);
     }
 }

@@ -11,7 +11,7 @@ public class Main {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException e) {
-        	new Log_erros_class().write_log_to_file(e);
+        	new Log_erros_class().write_log_to_file("main",e);
         }
         
         java.awt.EventQueue.invokeLater(new Runnable() {

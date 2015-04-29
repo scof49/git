@@ -754,7 +754,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
     	}
     	
     	try {
-	    	Connection con = (new Connection_bd()).get_connection();
+	    	Connection con = (new Connection_bd(this.username)).get_connection();
 	    	if (con!=null){
 	    	
 		    	for (TarefaHoras t : this.lista.values()){
@@ -779,7 +779,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
         	res++;
 		}
     	
@@ -817,7 +817,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
         catch(Exception e){
         	e.printStackTrace();
         	this.setCursor(Cursor.getDefaultCursor());
-        	new Log_erros_class().write_log_to_file(e);
+        	new Log_erros_class().write_log_to_file(this.username,e);
         	res++;
         }
         return res;
@@ -849,7 +849,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
 
@@ -867,7 +867,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
 		catch(SQLException e){
 			e.printStackTrace();
 			this.setCursor(Cursor.getDefaultCursor());
-			new Log_erros_class().write_log_to_file(e);
+			new Log_erros_class().write_log_to_file(this.username,e);
 		}
 	}
     
@@ -905,7 +905,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
             catch(HeadlessException | IOException | ClassNotFoundException | SQLException e){
                 e.printStackTrace();
                 this.setCursor(Cursor.getDefaultCursor());
-                new Log_erros_class().write_log_to_file(e);
+                new Log_erros_class().write_log_to_file(this.username,e);
                 res++;
             }  
         }
@@ -914,7 +914,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
 
@@ -982,7 +982,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
         
@@ -1041,7 +1041,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
             }
             catch(NumberFormatException e){
             	this.setCursor(Cursor.getDefaultCursor());
-            	new Log_erros_class().write_log_to_file(e);
+            	new Log_erros_class().write_log_to_file(this.username,e);
                 tot = 0.0;
             }
             switch(i){
@@ -1777,7 +1777,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
         catch (BiffException | IOException e) {
         	e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
         } 
     }
     
@@ -1948,7 +1948,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
           {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             id_resto = 0;
           }
           if (id_resto > max) {
@@ -2096,7 +2096,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
         {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             res++;
         }
         return res;
@@ -2505,7 +2505,7 @@ public class Menu_tarefas_horas extends javax.swing.JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
             this.setCursor(Cursor.getDefaultCursor());
-            new Log_erros_class().write_log_to_file(e);
+            new Log_erros_class().write_log_to_file(this.username,e);
             ret++;
         }
         return ret;

@@ -66,7 +66,7 @@ public class ModeloTabelaDespesasPart extends AbstractTableModel
                 	cliente = this.projectos.get(proj_id).get_cliente().get_nome();
                 }catch(Exception e){
                 	e.printStackTrace();
-                	new Log_erros_class().write_log_to_file(e);
+                	new Log_erros_class().write_log_to_file("",e);
                 	cliente = "ERRO";
                 }
                 return cliente;

@@ -161,7 +161,7 @@ public class TableCellListener implements PropertyChangeListener, Runnable
                         total += Double.valueOf(table.getModel().getValueAt(i, column).toString().replace(",","."));
                 }
                 catch(NumberFormatException e){
-                	new Log_erros_class().write_log_to_file(e);
+                	new Log_erros_class().write_log_to_file("",e);
                 total = 0.0;
                 }
                 
